@@ -232,7 +232,7 @@ function novaConversa() {
 
 async function abrirCamera() {
   const modal = document.getElementById("camera-modal");
-  const video = document.getElementById("camera-video");
+  const video = document.getElementById("camera-preview");
 
   if (!modal || !video) return;
 
@@ -256,7 +256,7 @@ async function abrirCamera() {
 
 function fecharCamera() {
   const modal = document.getElementById("camera-modal");
-  const video = document.getElementById("camera-video");
+  const video = document.getElementById("camera-preview");
 
   if (cameraStream) {
     cameraStream.getTracks().forEach(t => t.stop());
@@ -268,7 +268,7 @@ function fecharCamera() {
 }
 
 function tirarFoto() {
-  const video = document.getElementById("camera-video");
+  const video = document.getElementById("camera-preview");
   if (!video) return;
 
   const canvas = document.createElement("canvas");
