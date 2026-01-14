@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidade • Chatzinho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="menu">
+  <div class="box">
+ <h2>Política de Privacidade</h2>
+
+<p>
+O Chatzinho foi desenvolvido para funcionar sem cadastro e com mínima coleta de informações.
+</p>
+
+<h3>Dados coletados</h3>
+<p>
+O Chatzinho não solicita cadastro e não coleta dados pessoais identificáveis, como nome, e-mail ou telefone.
+</p>
+
+<h3>Segurança</h3>
+<p>
+Utilizamos conexão segura (HTTPS), garantindo que as informações transmitidas entre o dispositivo do usuário e o site sejam protegidas durante a comunicação.
+</p>
+
+<h3>Conversas</h3>
+<p>
+As conversas não são armazenadas pelo Chatzinho. O site não realiza monitoramento contínuo das mensagens.
+</p>
+
+<h3>Compartilhamento</h3>
+<p>
+O Chatzinho não vende, não compartilha e não comercializa dados de usuários com terceiros.
+</p>
+
+<p>
+Esta Política de Privacidade pode ser atualizada a qualquer momento.
+</p>
+
+<a id="btnVoltar" href="index.html" class="btn azul"> Voltar</a>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("from") === "chat") {
+    document.getElementById("btnVoltar").href = "chat.html";
+    document.getElementById("btnVoltar").innerText = "Voltar ao chat";
+  }
+</script>
+  </div>
+</body>
+</html>

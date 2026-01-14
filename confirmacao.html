@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmação de Idade • Chatzinho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="confirmacao">
+
+  <div class="box">
+    <h2>Confirmação de Idade</h2>
+
+    <p>
+      Para continuar, informe seu <strong>ano de nascimento</strong>.<br>
+      Ao prosseguir, você declara ser maior de 18 anos.
+    </p>
+
+    <input
+      type="number"
+      class="input"
+      id="ano"
+      placeholder="Ex: 2002"
+    >
+
+<button
+  type="button"
+  class="btn laranja btn-continuar"
+  onclick="abrirModal()"
+>
+  Continuar
+</button>
+
+    <a href="index.html" class="btn azul">
+      Voltar
+    </a>
+  </div>
+
+
+<script>
+let modoSelecionado = null;
+
+function abrirModal() {
+  const ano = document.getElementById("ano").value;
+
+  if (!ano || ano.length !== 4) {
+    alert("Informe um ano válido.");
+    return;
+  }
+
+  const anoAtual = new Date().getFullYear();
+  const idade = anoAtual - parseInt(ano);
+
+  if (idade < 18) {
+    alert("Você precisa ser maior de 18 anos.");
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  modoSelecionado = params.get("modo");
+
+  document.getElementById("modal-termos").classList.add("ativo");
+}
+
+function confirmarTermos() {
+localStorage.setItem("aceitouTermos", "true");
+  const termos = document.getElementById("check-termos").checked;
+  const privacidade = document.getElementById("check-privacidade").checked;
+
+  if (!termos || !privacidade) {
+    alert("Você precisa concordar com os Termos e a Política.");
+    return;
+  }
+  
+
+  if (modoSelecionado === "18") {
+    window.location.href = "filtro.html";
+  } else {
+    localStorage.setItem("modo", "casual");
+    window.location.href = "chat.html";
+  }
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const paginaAtual = window.location.pathname;
+
+  // NÃO roda na página de confirmação
+  if (!paginaAtual.includes("confirmacao")) {
+    if (localStorage.getItem("aceitouTermos") !== "true") {
+      window.location.href = "confirmacao.html";
+    }
+  }
+});
+</script>
+</div>
+<div id="modal-termos" class="modal hidden">
+  <div class="modal-box">
+    <h3>Confirmação</h3>
+
+    <label>
+      <input type="checkbox" id="check-termos">
+      Li e concordo com os 
+      <a href="termos.html" target="_blank">Termos de Uso</a>
+    </label>
+
+    <label>
+      <input type="checkbox" id="check-privacidade">
+      Li e concordo com a 
+      <a href="privacidade.html" target="_blank">Política de Privacidade</a>
+    </label>
+
+    <button onclick="confirmarTermos()">Aceitar e continuar</button>
+    <button onclick="fecharModal()">Cancelar</button>
+  </div>
+</div>
+</body>
+</html>

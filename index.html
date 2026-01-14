@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatzinho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="inicio">
+<!-- CONFETES DE CARNAVAL -->
+<div class="confetes"></div>
+
+  <div class="inicio-container">
+
+    <div id="online-topo">
+      <span id="online-numero">100</span> pessoas online agora
+    </div>
+
+    <div class="inicio-box">
+      <h1> Chatzinho</h1>
+
+      <p class="inicio-frase">
+        Comece uma boa conversa.<br>
+        Segurança para você  e para quem esta do outro lado.
+      </p>
+
+      <a href="menu.html" class="btn-principal">
+        Entrar no Chatzinho
+      </a>
+
+      <div class="links-termos">
+        <a href="termos.html">Termos de Uso</a> |
+        <a href="privacidade.html">Privacidade</a>
+      </div>
+    </div>
+    <div class="fogos-fixos"></div>
+<div class="feedback-link">
+  <a href="feedback.html"> Deixe sua sugestão</a>
+</div>
+<footer class="rodape-transparencia">
+  <p>
+    <strong>Chatzinho é um chat anônimo.</strong><br>
+    Não armazenamos conversas nem mensagens trocadas entre usuários.<br>
+    Caso não haja usuários online ou compatíveis com seu filtro, uma mensagem de espera será exibida.<br>
+    Uso permitido apenas para maiores de 18 anos.
+  </p>
+
+  <div class="rodape-links">
+    <a href="termos.html">Termos de Uso</a> •
+    <a href="privacidade.html">Política de Privacidade</a>
+  </div>
+</footer>
+  </div>
+
+
+<script>
+  let online = 100;
+
+  setInterval(() => {
+    const variacao = Math.floor(Math.random() * 5) - 2; // -2 a +2
+    online += variacao;
+
+    if (online < 80) online = 80;
+    if (online > 180) online = 180;
+
+    document.getElementById("online-numero").innerText = online;
+  }, 3000);
+</script>
+<script>
+const confetes = document.querySelector('.confetes');
+const cores = ['dourado', 'verde', 'azul', 'rosa'];
+
+for (let i = 0; i < 40; i++) {
+  const confete = document.createElement('div');
+  confete.classList.add('confete');
+  confete.classList.add(cores[Math.floor(Math.random() * cores.length)]);
+
+  confete.style.left = Math.random() * 100 + 'vw';
+confete.style.top = (Math.random() * 100 - 100) + 'vh'; // come�a espalhado
+confete.style.animationDuration = (6 + Math.random() * 6) + 's';
+confete.style.animationDelay = '0s'; // come�a caindo na hora
+
+  confetes.appendChild(confete);
+}
+</script>
+<div class="mascaras-fundo">
+  <span class="mascara m1">🎭</span>
+  <span class="mascara m2">🎊</span>
+  <span class="mascara m3">🎭</span>
+  <span class="mascara m4">🎊</span>
+  <span class="mascara m5">🎭</span>
+  <span class="mascara m6">🎉</span>
+</div>
+</body>
+</html>

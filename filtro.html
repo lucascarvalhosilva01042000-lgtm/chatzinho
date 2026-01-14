@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filtros +18 • Chatzinho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="filtro">
+
+  <div class="filtro-box">
+
+    <!-- PASSO 1 -->
+    <div id="passo1">
+      <h2>Quem é você?</h2>
+      <div class="opcao" onclick="passo1('Homem')">Homem</div>
+      <div class="opcao" onclick="passo1('Mulher')">Mulher</div>
+      <div class="opcao" onclick="passo1('Outro')">Outro</div>
+    </div>
+
+    <!-- PASSO 2 -->
+    <div id="passo2" class="hidden">
+      <h2>Deseja conversar com:</h2>
+      <div class="opcao" onclick="passo2('Homens')">Homens</div>
+      <div class="opcao" onclick="passo2('Mulheres')">Mulheres</div>
+      <div class="opcao" onclick="passo2('Outros')">Outros</div>
+    </div>
+
+    <!-- PASSO 3 -->
+    <div id="passo3" class="hidden">
+      <h2>Sua posição:</h2>
+      <div class="opcao" onclick="finalizar('Ativo')">Ativo</div>
+      <div class="opcao" onclick="finalizar('Passivo')">Passivo</div>
+      <div class="opcao" onclick="finalizar('Versátil')">Versátil</div>
+    </div>
+
+  </div>
+
+<script>
+let eu = '';
+let desejo = '';
+let posicao = '';
+
+function passo1(valor) {
+  eu = valor;
+  document.getElementById('passo1').classList.add('hidden');
+  document.getElementById('passo2').classList.remove('hidden');
+}
+
+function passo2(valor) {
+  desejo = valor;
+  document.getElementById('passo2').classList.add('hidden');
+
+  if (eu === 'Homem' && desejo === 'Homens') {
+    document.getElementById('passo3').classList.remove('hidden');
+  } else {
+    finalizar('');
+  }
+}
+
+function finalizar(valor) {
+  posicao = valor;
+
+  // Guardar escolhas
+  localStorage.setItem('modo', '+18');
+  localStorage.setItem('eu', eu);
+  localStorage.setItem('desejo', desejo);
+  localStorage.setItem('posicao', posicao);
+
+  // Ir para o chat
+  window.location.href = "chat.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADM • Chatzinho</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0a1a2f;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #d4af37;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .senha-box {
+      max-width: 360px;
+      margin: 40px auto;
+      background: #111;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #f28c28;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .feedback {
+      background: #111;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .data {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .apagar {
+      margin-top: 10px;
+      background: #c0392b;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📋 ADM • Feedbacks</h1>
+
+  <!-- LOGIN -->
+  <div id="login" class="senha-box">
+    <p>Digite a senha do administrador</p>
+    <input type="password" id="senha" placeholder="Senha">
+    <button onclick="entrar()">Entrar</button>
+  </div>
+
+  <!-- LISTA DE FEEDBACKS -->
+  <div id="painel" style="display:none;"></div>
+
+<script>
+const SENHA_ADM = "161204"; // <<< MUDE AQUI DEPOIS
+
+function entrar() {
+  const senha = document.getElementById("senha").value;
+
+  if (senha !== SENHA_ADM) {
+    alert("Senha incorreta");
+    return;
+  }
+
+  document.getElementById("login").style.display = "none";
+  document.getElementById("painel").style.display = "block";
+  carregarFeedbacks();
+}
+
+function carregarFeedbacks() {
+  const painel = document.getElementById("painel");
+  painel.innerHTML = "";
+
+  const feedbacks = JSON.parse(localStorage.getItem("chatzinho_feedbacks")) || [];
+
+  if (feedbacks.length === 0) {
+    painel.innerHTML = "<p style='text-align:center;'>Nenhuma sugestão ainda.</p>";
+    return;
+  }
+
+  feedbacks.forEach((f, index) => {
+    const div = document.createElement("div");
+    div.className = "feedback";
+
+    div.innerHTML = `
+      <div class="data">${f.data}</div>
+      <div>${f.texto}</div>
+      <button class="apagar" onclick="apagarFeedback(${index})">Apagar</button>
+    `;
+
+    painel.appendChild(div);
+  });
+}
+
+function apagarFeedback(index) {
+  if (!confirm("Deseja apagar este feedback?")) return;
+
+  let feedbacks = JSON.parse(localStorage.getItem("chatzinho_feedbacks")) || [];
+  feedbacks.splice(index, 1);
+  localStorage.setItem("chatzinho_feedbacks", JSON.stringify(feedbacks));
+
+  carregarFeedbacks();
+}
+</script>
+
+</body>
+</html>

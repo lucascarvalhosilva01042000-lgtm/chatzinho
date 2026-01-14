@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Termos de Uso • Chatzinho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="menu">
+  <div class="box">
+    <h2>Termos de Uso</h2>
+
+<p>
+Ao utilizar o Chatzinho, você declara ter 18 anos ou mais e concorda integralmente com estes Termos de Uso.
+</p>
+
+<h3>Condutas proibidas</h3>
+<ul>
+  <li>Qualquer forma de violência, assédio ou desrespeito.</li>
+  <li>Discurso de ódio, discriminação ou apologia a crimes.</li>
+  <li>Conteúdo relacionado à exploração sexual de menores.</li>
+  <li>Golpes, pedidos de dinheiro ou links suspeitos.</li>
+  <li>Divulgação de dados pessoais sem autorização.</li>
+  <li>Uso do site para fins comerciais ou promocionais.</li>
+</ul>
+
+<h3>Chat Casual</h3>
+<p>
+O Chat Casual é destinado a conversas leves e respeitosas. Não é permitido o envio de fotos, vídeos ou conteúdos de cunho sexual.
+</p>
+
+<h3>Chat +18</h3>
+<p>
+O Chat +18 é exclusivo para adultos. É proibido interagir com menores de idade ou enviar conteúdo íntimo sem consentimento.
+</p>
+
+<h3>Denúncias</h3>
+<p>
+O Chatzinho disponibiliza ferramentas de denúncia para promover um ambiente mais seguro. O uso indevido pode resultar em restrições de acesso.
+</p>
+
+<p>
+O descumprimento destes termos pode resultar no bloqueio de acesso ao site.
+</p>
+
+    <a id="btnVoltar" href="index.html" class="btn azul"> Voltar</a>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("from") === "chat") {
+    document.getElementById("btnVoltar").href = "chat.html";
+    document.getElementById("btnVoltar").innerText = " Voltar ao chat";
+  }
+</script>
+    
+  </div>
+</body>
+</html>

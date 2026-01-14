@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat • Chatzinho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="chat">
+
+<!-- TOPO DO CHAT -->
+<div class="chat-topo">
+  <span onclick="voltarInicio()">✨️ Chatzinho ✨️</span>
+  <span style="float:right; cursor:pointer;" onclick="abrirMenu()">☰</span>
+</div>
+
+<!-- 🔴 TELA DE BLOQUEIO -->
+<div id="tela-bloqueio" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg, #0a1a2f, #06101f);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+">
+  <div style="max-width:420px; width:100%;">
+    <h1 style="color:#d4af37; font-size:32px; margin-bottom:16px;">
+      Acesso bloqueado
+    </h1>
+
+    <p style="color:#e0e0e0; font-size:16px; line-height:1.5; margin-bottom:30px;">
+      Seu acesso foi bloqueado por violar gravemente<br>
+      os Termos de Uso do <strong>Chatzinho</strong>.
+    </p>
+
+    <div style="font-size:14px; color:#aaa;">
+      Caso ache que houve um erro,<br>
+      entre em contato pelos nossos canais oficiais.
+    </div>
+  </div>
+</div>
+
+<!-- MENU CHAT -->
+<div id="menuChat" style="
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  z-index: 30;
+">
+  <div style="
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 260px;
+    height: 100%;
+    background: #0a1a2f;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  ">
+    <h3 style="color: #d4af37; text-align: center; margin-bottom: 10px;">
+      ✨ Chatzinho ✨
+    </h3>
+
+    <a href="index.html" style="color:#fff; text-decoration:none;">Início</a>
+    <a href="ajuda.html" style="color:#fff; text-decoration:none;">Ajuda</a>
+    <a href="como-funciona.html" style="color:#fff; text-decoration:none;">Como funciona</a>
+    <a href="termos.html?from=chat">Termos de Uso</a>
+    <a href="privacidade.html?from=chat">Política de Privacidade</a>
+    <a href="sobre.html" style="color:#fff; text-decoration:none;">Sobre o Chatzinho</a>
+
+    <div style="margin-top:auto;">
+      <button onclick="fecharMenu()" style="
+        width:100%;
+        padding:12px;
+        background:#f28c28;
+        border:none;
+        border-radius:10px;
+        font-weight:bold;
+        cursor:pointer;
+      ">
+        Fechar Menu
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TAGS -->
+<div class="chat-tags" id="tags"></div>
+
+<!-- ÁREA DE CONVERSA -->
+<div id="chat-area" style="
+  padding: 15px;
+  padding-bottom: 120px;
+  overflow-y: auto;
+">
+</div>
+
+<!-- CONVERSA ENCERRADA -->
+<div id="conversa-encerrada" style="
+  display:none;
+  text-align:center;
+  margin-top:40px;
+">
+  <p style="font-size:18px; color:#555; margin-bottom:20px;">
+    Conversa encerrada 😕
+  </p>
+
+  <button onclick="novaConversa()" style="
+    padding:14px 22px;
+    border:none;
+    border-radius:10px;
+    background:#1f3c88;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+  ">
+    Nova conversa
+  </button>
+
+  <div onclick="abrirDenuncia()" style="
+    color:#c0392b;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:15px;
+    margin-top:10px;
+  ">
+    🚩 Denunciar conversa
+  </div>
+</div>
+
+<!-- BARRA INFERIOR -->
+<div id="chat-barra" style="
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #e8e2d6;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+">
+
+  <form onsubmit="enviarMensagem(); return false;" style="
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  ">
+    <input
+      id="chat-input"
+      type="text"
+      placeholder="Digite sua mensagem..."
+      style="
+        flex: 1;
+        padding: 12px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+      "
+    >
+
+    <div onclick="enviarMensagem()" style="
+      font-size:22px;
+      cursor:pointer;
+      color:#1f3c88;
+      padding: 0 6px;
+    ">
+      ➤
+    </div>
+
+  <div onclick="abrirCamera()" style="font-size:20px; cursor:pointer;">📷</div>
+    <div style="font-size:20px; cursor:pointer;">🎤</div>
+    <div onclick="pularConversa()" style="font-size:20px; cursor:pointer;">⏭️</div>
+  </form>
+</div>
+
+<!-- MODAL DENÚNCIA -->
+<div id="modal-denuncia" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:50;
+  align-items:center;
+  justify-content:center;
+">
+  <div style="
+    background:#111;
+    color:#fff;
+    width:90%;
+    max-width:360px;
+    border-radius:14px;
+    padding:25px;
+  ">
+    <h3 style="margin-bottom:10px;">Denunciar conversa?</h3>
+
+    <p style="font-size:14px; color:#ccc; margin-bottom:20px;">
+      Ao denunciar, esta conversa será analisada.
+    </p>
+
+    <label><input type="radio" name="denuncia"> Conteúdo sexual</label><br><br>
+    <label><input type="radio" name="denuncia"> Menor de idade</label><br><br>
+    <label><input type="radio" name="denuncia"> Conteúdo ilegal</label><br><br>
+    <label><input type="radio" name="denuncia"> Discurso de ódio</label><br><br>
+    <label><input type="radio" name="denuncia"> Spam</label><br><br>
+    <label><input type="radio" name="denuncia"> Outro</label><br><br>
+
+    <button type="button" onclick="enviarDenuncia()" style="
+      width:100%;
+      padding:12px;
+      background:#1f3c88;
+      border:none;
+      border-radius:10px;
+      color:#fff;
+      font-weight:bold;
+      margin-bottom:10px;
+    ">
+      Enviar denúncia
+    </button>
+
+    <button type="button" onclick="fecharDenuncia()" style="
+      width:100%;
+      padding:12px;
+      background:#f28c28;
+      border:none;
+      border-radius:10px;
+      font-weight:bold;
+    ">
+      Cancelar
+    </button>
+  </div>
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+  alert("🔥 Script do Firebase carregou");
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA3Bqc2QDodwEhk_LTZSRkaU_ZJTOnXqCU",
+    authDomain: "chatzinho-1e3e2.firebaseapp.com",
+    projectId: "chatzinho-1e3e2",
+    storageBucket: "chatzinho-1e3e2.firebasestorage.app",
+    messagingSenderId: "266162153066",
+    appId: "1:266162153066:web:9128f5c8e9a6ce30ce8c13"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  window.db = firebase.firestore();
+
+  alert("✅ Firebase inicializado com sucesso");
+</script>
+
+<script src="chat.js"></script>
+
+<!-- MODAL DA CÂMERA -->
+<div id="camera-modal" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:9999;
+">
+
+  <video id="camera-preview"
+    autoplay
+    playsinline
+    style="
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    ">
+  </video>
+
+  <!-- BOTÃO FECHAR -->
+  <div onclick="fecharCamera()" style="
+    position:absolute;
+    top:20px;
+    left:20px;
+    font-size:26px;
+    color:white;
+    cursor:pointer;
+  ">✕</div>
+
+  <!-- BOTÃO CAPTURAR -->
+  <div onclick="capturarFoto()" style="
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:4px solid white;
+    cursor:pointer;
+  "></div>
+
+  <canvas id="camera-canvas" style="display:none;"></canvas>
+</div>
+</body>
+</html>
