@@ -306,9 +306,45 @@ function enviarFoto() {
   fecharCamera();
 }
 function tirarOutraFoto() {
-  const video = document.getElementById("camera-preview");
-  video.play();
+  const video = document.getElementById("foto-acoes").style.display = "none";
 
   fotoCapturada = null;
   document.getElementById("foto-acoes").style.display = "none";
+}
+function enviarFotoUnica() {
+  if (!fotoCapturada) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.style.display = "flex";
+  wrapper.style.justifyContent = "flex-end";
+
+  const btn = document.createElement("div");
+  btn.innerText = "📷 Imagem (ver uma vez)";
+  btn.style.padding = "10px 14px";
+  btn.style.borderRadius = "14px";
+  btn.style.background = "#ddd";
+  btn.style.cursor = "pointer";
+  btn.style.fontSize = "14px";
+
+  let aberta = false;
+
+  btn.onclick = () => {
+    if (aberta) return;
+    aberta = true;
+
+    const img = document.createElement("img");
+    img.src = fotoCapturada;
+    img.style.maxWidth = "90%";
+    img.style.borderRadius = "12px";
+
+    wrapper.innerHTML = "";
+    wrapper.appendChild(img);
+  };
+
+  wrapper.appendChild(btn);
+  chatArea.appendChild(wrapper);
+  chatArea.scrollTop = chatArea.scrollHeight;
+
+  fotoCapturada = null;
+  fecharCamera();
 }

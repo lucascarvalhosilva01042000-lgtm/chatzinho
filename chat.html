@@ -283,6 +283,39 @@
     transform: scaleX(-1);
   ">
 </video>
+<!-- AÇÕES DA FOTO -->
+<div id="foto-acoes" style="
+  display:none;
+  position:absolute;
+  bottom:120px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:12px;
+">
+  <button onclick="enviarFoto()" style="
+    padding:10px 16px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+  ">Enviar</button>
+
+  <button onclick="enviarFotoUnica()" style="
+    padding:10px 16px;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+  ">Ver uma vez</button>
+
+  <button onclick="tirarOutraFoto()" style="
+    padding:10px 16px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+  ">Refazer</button>
+</div>
 
   <!-- BOTÃO FECHAR -->
   <div onclick="fecharCamera()" style="
@@ -308,6 +341,20 @@
   "></div>
 
   <canvas id="camera-canvas" style="display:none;"></canvas>
+</div>
+<!-- AÇÕES APÓS FOTO -->
+<div id="foto-acoes" style="
+  display:none;
+  position:absolute;
+  bottom:20px;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+">
+
+  <button onclick="enviarFoto()" style="padding:10px 16px;">Enviar</button>
+  <button onclick="tirarOutraFoto()" style="padding:10px 16px;">Tirar outra</button>
+
 </div>
 </body>
 </html>
