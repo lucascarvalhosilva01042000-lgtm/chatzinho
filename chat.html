@@ -264,83 +264,44 @@
 <script src="chat.js"></script>
 
 <!-- MODAL DA CÂMERA -->
-<div id="camera-modal" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:9999;
-">
+<div id="camera-modal" class="camera-modal">
 
-<video
-  id="camera-preview"
-  autoplay
-  playsinline
-  style="
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transform: scaleX(-1);
-  ">
-</video>
-<!-- AÇÕES DA FOTO -->
-<div id="foto-acoes" style="
-  display:none;
-  position:absolute;
-  bottom:120px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:12px;
-">
-  <button onclick="enviarFoto()" style="
-    padding:10px 16px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-  ">Enviar</button>
+  <video id="camera-preview" autoplay playsinline></video>
 
-  <button onclick="enviarFotoUnica()" style="
-    padding:10px 16px;
-    border:none;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-  ">Ver uma vez</button>
+  <!-- FLASH FAKE (frontal) -->
+  <div id="flash-fake"></div>
 
-  <button onclick="tirarOutraFoto()" style="
-    padding:10px 16px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-  ">Refazer</button>
-</div>
+  <!-- TOPO -->
+  <div class="camera-top">
+    <button onclick="fecharCamera()">✕</button>
+    <button onclick="alternarCamera()">🔄</button>
+    <button onclick="alternarFlash()">⚡</button>
+  </div>
 
-  <!-- BOTÃO FECHAR -->
-  <div onclick="fecharCamera()" style="
-    position:absolute;
-    top:20px;
-    left:20px;
-    font-size:26px;
-    color:white;
-    cursor:pointer;
-  ">✕</div>
+  <!-- BOTÃO DISPARO -->
+  <div class="camera-bottom">
+    <div class="capture-btn"
+         onmousedown="iniciarCaptura()"
+         onmouseup="finalizarCaptura()"
+         ontouchstart="iniciarCaptura()"
+         ontouchend="finalizarCaptura()">
+    </div>
+  </div>
 
-  <!-- BOTÃO CAPTURAR -->
-  <div onclick="tirarFoto()" style="
-    position:absolute;
-    bottom:30px;
-    left:50%;
-    transform:translateX(-50%);
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    border:4px solid white;
-    cursor:pointer;
-  "></div>
+  <!-- PREVIEW -->
+  <div id="preview-foto" class="preview-foto">
+    <img id="preview-img">
 
-  <canvas id="camera-canvas" style="display:none;"></canvas>
+    <input id="legenda-foto" placeholder="Adicionar legenda…">
+
+    <div class="preview-actions">
+      <button onclick="enviarFoto(false)">➤</button>
+      <button onclick="enviarFoto(true)">👁️</button>
+      <button onclick="refazerFoto()">↺</button>
+    </div>
+  </div>
+
+  <canvas id="camera-canvas"></canvas>
 </div>
 <!-- AÇÕES APÓS FOTO -->
 <div id="foto-acoes" style="

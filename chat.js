@@ -8,7 +8,10 @@ let ultimoRemetente = null;
 let conectandoDiv = null;
 let unsubscribeSala = null;
 let cameraStream = null;
+let usandoFrontal = true;
+let flashAtivo = false;
 let fotoCapturada = null;
+
 
 
 
@@ -229,44 +232,50 @@ function novaConversa() {
   location.reload();
 }
 
-
 async function abrirCamera() {
   const modal = document.getElementById("camera-modal");
   const video = document.getElementById("camera-preview");
 
-  if (!modal || !video) return;
+  modal.style.display = "block";
 
-  modal.style.display = "flex";
+  cameraStream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: usandoFrontal ? "user" : "environment" },
+    audio: false
+  });
 
-  try {
-    cameraStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user" },
-      audio: false
-    });
-
-    video.srcObject = cameraStream;
-    video.play();
-
-  } catch (e) {
-    console.error(e);
-    alert("Não foi possível acessar a câmera 😕");
-    fecharCamera();
-  }
+  video.srcObject = cameraStream;
+  video.play();
 }
-
 function fecharCamera() {
-  const modal = document.getElementById("camera-modal");
-  const video = document.getElementById("camera-preview");
-
   if (cameraStream) {
     cameraStream.getTracks().forEach(t => t.stop());
     cameraStream = null;
   }
 
-  if (video) video.srcObject = null;
-  if (modal) modal.style.display = "none";
+  document.getElementById("camera-modal").style.display = "none";
+  document.getElementById("preview-foto").style.display = "none";
+  fotoCapturada = null;
 }
-
+async function alternarCamera() {
+  usandoFrontal = !usandoFrontal;
+  fecharCamera();
+  abrirCamera();
+}
+function alternarFlash() {
+  if (usandoFrontal) {
+    const fake = document.getElementById("flash-fake");
+    fake.style.display = "block";
+    setTimeout(() => fake.style.display = "none", 120);
+  } else {
+    const track = cameraStream.getVideoTracks()[0];
+    if (track.getCapabilities().torch) {
+      flashAtivo = !flashAtivo;
+      track.applyConstraints({
+        advanced: [{ torch: flashAtivo }]
+      });
+    }
+  }
+}
 function tirarFoto() {
   const video = document.getElementById("camera-preview");
   const canvas = document.getElementById("camera-canvas");
@@ -275,81 +284,25 @@ function tirarFoto() {
   canvas.height = video.videoHeight;
 
   const ctx = canvas.getContext("2d");
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  // guarda a foto em memória (NÃO ENVIA)
+  if (usandoFrontal) {
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+  }
+
+  ctx.drawImage(video, 0, 0);
   fotoCapturada = canvas.toDataURL("image/jpeg");
 
-  // pausa câmera
-  video.pause();
-
-  // mostra botões
-  document.getElementById("foto-acoes").style.display = "flex";
+  document.getElementById("preview-img").src = fotoCapturada;
+  document.getElementById("preview-foto").style.display = "block";
 }
-function enviarFoto() {
-  if (!fotoCapturada) return;
-
-  const img = document.createElement("img");
-  img.src = fotoCapturada;
-  img.style.maxWidth = "70%";
-  img.style.borderRadius = "12px";
-
-  const wrapper = document.createElement("div");
-  wrapper.style.display = "flex";
-  wrapper.style.justifyContent = "flex-end";
-  wrapper.appendChild(img);
-
-  chatArea.appendChild(wrapper);
-  chatArea.scrollTop = chatArea.scrollHeight;
-
+function refazerFoto() {
   fotoCapturada = null;
-  fecharCamera();
+  document.getElementById("preview-foto").style.display = "none";
 }
-function tirarOutraFoto() {
-  const video = document.getElementById("camera-preview");
+function enviarFoto(umaVez) {
+  // aqui depois a gente liga no Firestore
+  console.log("Enviar foto | ver uma vez:", umaVez);
 
-  fotoCapturada = null;
-
-  // esconde botões
-  document.getElementById("foto-acoes").style.display = "none";
-
-  // volta o preview em tempo real
-  video.play();
-}
-function enviarFotoUnica() {
-  if (!fotoCapturada) return;
-
-  const wrapper = document.createElement("div");
-  wrapper.style.display = "flex";
-  wrapper.style.justifyContent = "flex-end";
-
-  const btn = document.createElement("div");
-  btn.innerText = "📷 Imagem (ver uma vez)";
-  btn.style.padding = "10px 14px";
-  btn.style.borderRadius = "14px";
-  btn.style.background = "#ddd";
-  btn.style.cursor = "pointer";
-  btn.style.fontSize = "14px";
-
-  let aberta = false;
-
-  btn.onclick = () => {
-    if (aberta) return;
-    aberta = true;
-
-    const img = document.createElement("img");
-    img.src = fotoCapturada;
-    img.style.maxWidth = "90%";
-    img.style.borderRadius = "12px";
-
-    wrapper.innerHTML = "";
-    wrapper.appendChild(img);
-  };
-
-  wrapper.appendChild(btn);
-  chatArea.appendChild(wrapper);
-  chatArea.scrollTop = chatArea.scrollHeight;
-
-  fotoCapturada = null;
   fecharCamera();
 }
