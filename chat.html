@@ -272,15 +272,17 @@
   z-index:9999;
 ">
 
-  <video id="camera-preview"
-    autoplay
-    playsinline
-    style="
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    ">
-  </video>
+<video
+  id="camera-preview"
+  autoplay
+  playsinline
+  style="
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform: scaleX(-1);
+  ">
+</video>
 
   <!-- BOTÃO FECHAR -->
   <div onclick="fecharCamera()" style="
