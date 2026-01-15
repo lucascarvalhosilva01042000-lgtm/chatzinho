@@ -268,10 +268,15 @@ function fecharCamera() {
 }
 
 function tirarFoto() {
-  const video = document.getElementById("camera-preview");
-  if (!video) return;
+  // 🚫 trava anti-duplicação
+  if (fotoCapturada) return;
+  fotoCapturada = true;
 
-  const canvas = document.createElement("canvas");
+  const video = document.getElementById("camera-preview");
+  const canvas = document.getElementById("camera-canvas");
+
+  if (!video || !canvas) return;
+
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
 
