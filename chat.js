@@ -275,7 +275,6 @@ function tirarFoto() {
   canvas.height = video.videoHeight;
 
   const ctx = canvas.getContext("2d");
-
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   const img = document.createElement("img");
