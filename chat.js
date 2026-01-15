@@ -277,8 +277,20 @@ function tirarFoto() {
   const ctx = canvas.getContext("2d");
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+  // guarda a foto em memória (NÃO ENVIA)
+  fotoCapturada = canvas.toDataURL("image/jpeg");
+
+  // pausa câmera
+  video.pause();
+
+  // mostra botões
+  document.getElementById("foto-acoes").style.display = "flex";
+}
+function enviarFoto() {
+  if (!fotoCapturada) return;
+
   const img = document.createElement("img");
-  img.src = canvas.toDataURL("image/jpeg");
+  img.src = fotoCapturada;
   img.style.maxWidth = "70%";
   img.style.borderRadius = "12px";
 
@@ -290,5 +302,13 @@ function tirarFoto() {
   chatArea.appendChild(wrapper);
   chatArea.scrollTop = chatArea.scrollHeight;
 
+  fotoCapturada = null;
   fecharCamera();
+}
+function tirarOutraFoto() {
+  const video = document.getElementById("camera-preview");
+  video.play();
+
+  fotoCapturada = null;
+  document.getElementById("foto-acoes").style.display = "none";
 }
