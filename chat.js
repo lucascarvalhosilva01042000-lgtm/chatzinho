@@ -306,10 +306,15 @@ function enviarFoto() {
   fecharCamera();
 }
 function tirarOutraFoto() {
-  const video = document.getElementById("foto-acoes").style.display = "none";
+  const video = document.getElementById("camera-preview");
 
   fotoCapturada = null;
+
+  // esconde botões
   document.getElementById("foto-acoes").style.display = "none";
+
+  // volta o preview em tempo real
+  video.play();
 }
 function enviarFotoUnica() {
   if (!fotoCapturada) return;
