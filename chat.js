@@ -239,12 +239,17 @@ async function abrirCamera() {
   modal.style.display = "block";
 
   cameraStream = await navigator.mediaDevices.getUserMedia({
-    video: { facingMode: usandoFrontal ? "user" : "environment" },
+    video: {
+      facingMode: usandoFrontal ? "user" : { exact: "environment" },
+      width: { ideal: 1920 },
+      height: { ideal: 1080 },
+      frameRate: { ideal: 30 }
+    },
     audio: false
   });
 
   video.srcObject = cameraStream;
-  video.play();
+  await video.play();
 }
 function fecharCamera() {
   if (cameraStream) {
@@ -305,4 +310,11 @@ function enviarFoto(umaVez) {
   console.log("Enviar foto | ver uma vez:", umaVez);
 
   fecharCamera();
+}
+function iniciarCaptura() {
+  tirarFoto();
+}
+
+function finalizarCaptura() {
+  // vazio por enquanto (vídeo vem depois)
 }

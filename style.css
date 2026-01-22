@@ -1086,6 +1086,7 @@ body.chat .container {
   overflow: hidden !important;
 }
 .camera-modal {
+	display: none;
   position: fixed;
   inset: 0;
   background: #000;
