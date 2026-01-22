@@ -289,13 +289,8 @@ function tirarFoto() {
   canvas.height = video.videoHeight;
 
   const ctx = canvas.getContext("2d");
-
-  if (usandoFrontal) {
-    ctx.translate(canvas.width, 0);
-    ctx.scale(-1, 1);
-  }
-
-  ctx.drawImage(video, 0, 0);
+ ctx.drawImage(video, 0, 0);
+ 
   fotoCapturada = canvas.toDataURL("image/jpeg");
 
   document.getElementById("preview-img").src = fotoCapturada;
