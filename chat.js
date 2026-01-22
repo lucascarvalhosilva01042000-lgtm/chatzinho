@@ -284,6 +284,13 @@ function alternarFlash() {
 function tirarFoto() {
   const video = document.getElementById("camera-preview");
   const canvas = document.getElementById("camera-canvas");
+  const flashFake = document.getElementById("flash-fake");
+
+  // ⚡ flash frontal (pisca)
+  if (usandoFrontal && flashFake) {
+    flashFake.style.display = "block";
+    setTimeout(() => flashFake.style.display = "none", 120);
+  }
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
