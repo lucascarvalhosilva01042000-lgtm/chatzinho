@@ -239,13 +239,14 @@ async function abrirCamera() {
   modal.style.display = "block";
 
   cameraStream = await navigator.mediaDevices.getUserMedia({
-    video: {
-      facingMode: usandoFrontal ? "user" : "environment",
-      width: { ideal: 1920 },
-      height: { ideal: 1080 }
-    },
-    audio: false
-  });
+  video: {
+    facingMode: usandoFrontal ? "user" : "environment",
+    width: { ideal: 4096 },
+    height: { ideal: 2160 },
+    frameRate: { ideal: 30 }
+  },
+  audio: false
+});
 
   video.srcObject = cameraStream;
   video.play();
@@ -284,7 +285,7 @@ function tirarFoto() {
   const canvas = document.getElementById("camera-canvas");
   const flashFake = document.getElementById("flash-fake");
 
-  // flash frontal pisca SÓ no clique
+  // flash frontal → pisca SOMENTE no clique
   if (usandoFrontal && flashFake) {
     flashFake.style.display = "block";
     setTimeout(() => flashFake.style.display = "none", 120);
