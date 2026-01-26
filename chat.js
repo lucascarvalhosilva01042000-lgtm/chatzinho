@@ -280,7 +280,6 @@ function alternarFlash() {
   }
   // frontal NÃO faz nada aqui
 }
-}
 function tirarFoto() {
   const video = document.getElementById("camera-preview");
   const canvas = document.getElementById("camera-canvas");
