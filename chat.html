@@ -266,7 +266,7 @@
 <!-- MODAL DA CÂMERA -->
 <div id="camera-modal" class="camera-modal">
 
-  <!-- PREVIEW AO VIVO -->
+  <!-- PREVIEW -->
   <video id="camera-preview" autoplay playsinline></video>
 
   <!-- FLASH FAKE -->
@@ -274,35 +274,28 @@
 
   <!-- TOPO -->
   <div class="camera-top">
-    <button onclick="fecharCamera()">✕</button>
+    <button class="icon-btn" onclick="fecharCamera()">✕</button>
+
     <div class="camera-top-right">
-      <button onclick="alternarCamera()">🔄</button>
-      <button onclick="alternarFlash()">⚡</button>
+      <button class="icon-btn" onclick="alternarFlash()">⚡</button>
+      <button class="icon-btn" onclick="alternarCamera()">🔄</button>
     </div>
   </div>
 
-  <!-- BOTÃO CAPTURAR -->
-  <div class="camera-bottom">
+  <!-- BOTÃO DISPARO -->
+  <div class="camera-capture">
     <div class="capture-btn"
          ontouchstart="iniciarCaptura()"
          onmousedown="iniciarCaptura()">
     </div>
   </div>
 
-  <!-- PREVIEW DA FOTO -->
-  <div id="preview-foto" class="preview-foto">
-    <img id="preview-img">
-
-    <input id="legenda-foto" placeholder="Adicionar legenda…">
-
-    <div class="preview-actions">
-      <button onclick="refazerFoto()">↺</button>
-      <button onclick="enviarFoto(true)">👁️</button>
-      <button onclick="enviarFoto(false)">➤</button>
-    </div>
+  <!-- RODAPÉ (MODO) -->
+  <div class="camera-modes">
+    <span class="mode">Vídeo</span>
+    <span class="mode active">Foto</span>
   </div>
 
-  <canvas id="camera-canvas"></canvas>
 </div>
 </body>
 </html>
