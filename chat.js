@@ -283,19 +283,12 @@ function alternarFlash() {
 function tirarFoto() {
   const video = document.getElementById("camera-preview");
   const canvas = document.getElementById("camera-canvas");
-  const flashFake = document.getElementById("flash-fake");
-
-  // flash frontal → pisca SOMENTE no clique
-  if (usandoFrontal && flashFake) {
-    flashFake.style.display = "block";
-    setTimeout(() => flashFake.style.display = "none", 120);
-  }
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
 
   const ctx = canvas.getContext("2d");
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(video, 0, 0);
 
   fotoCapturada = canvas.toDataURL("image/jpeg", 0.95);
 
@@ -303,8 +296,8 @@ function tirarFoto() {
   document.getElementById("preview-foto").style.display = "block";
 }
 function refazerFoto() {
-  fotoCapturada = null;
   document.getElementById("preview-foto").style.display = "none";
+  fotoCapturada = null;
 }
 function enviarFoto(umaVez) {
   // aqui depois a gente liga no Firestore
