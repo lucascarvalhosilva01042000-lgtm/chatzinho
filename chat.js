@@ -263,32 +263,51 @@ function fecharCamera() {
 }
 async function alternarCamera() {
   usandoFrontal = !usandoFrontal;
-  fecharCamera();
-  abrirCamera();
+
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(track => track.stop());
+  }
+
+  const video = document.getElementById("camera-preview");
+
+  cameraStream = await navigator.mediaDevices.getUserMedia({
+    video: {
+      facingMode: usandoFrontal ? "user" : { exact: "environment" }
+    },
+    audio: false
+  });
+
+  video.srcObject = cameraStream;
+  await video.play();
 }
 function alternarFlash() {
-  if (!cameraStream) return;
+  flashAtivo = !flashAtivo;
 
-  if (!usandoFrontal) {
-    const track = cameraStream.getVideoTracks()[0];
-    if (track.getCapabilities().torch) {
-      flashAtivo = !flashAtivo;
-      track.applyConstraints({
-        advanced: [{ torch: flashAtivo }]
-      });
-    }
+  const botaoFlash = document.querySelector(".camera-top button:nth-child(3)");
+
+  if (flashAtivo) {
+    botaoFlash.style.background = "rgba(255,215,0,0.9)";
+  } else {
+    botaoFlash.style.background = "rgba(0,0,0,.5)";
   }
-  // frontal NÃO faz nada aqui
+}
 }
 function tirarFoto() {
   const video = document.getElementById("camera-preview");
   const canvas = document.getElementById("camera-canvas");
+  const flashFake = document.getElementById("flash-fake");
+
+  // ⚡ flash frontal → só pisca se estiver ATIVO
+  if (usandoFrontal && flashAtivo && flashFake) {
+    flashFake.style.display = "block";
+    setTimeout(() => flashFake.style.display = "none", 120);
+  }
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
 
   const ctx = canvas.getContext("2d");
-  ctx.drawImage(video, 0, 0);
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   fotoCapturada = canvas.toDataURL("image/jpeg", 0.95);
 
