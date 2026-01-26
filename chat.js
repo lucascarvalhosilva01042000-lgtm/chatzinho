@@ -276,6 +276,10 @@ function alternarFlash() {
       track.applyConstraints({
         advanced: [{ torch: flashAtivo }]
       });
+    }
+  }
+  // frontal NÃO faz nada aqui
+}
 }
 function tirarFoto() {
   const video = document.getElementById("camera-preview");
