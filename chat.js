@@ -240,20 +240,15 @@ async function abrirCamera() {
 
   cameraStream = await navigator.mediaDevices.getUserMedia({
     video: {
-      facingMode: usandoFrontal ? "user" : "environment"
+      facingMode: usandoFrontal ? "user" : "environment",
+      width: { ideal: 1920 },
+      height: { ideal: 1080 }
     },
     audio: false
   });
 
   video.srcObject = cameraStream;
-
-  if (usandoFrontal) {
-    video.classList.remove("environment");
-  } else {
-    video.classList.add("environment");
-  }
-
-  await video.play();
+  video.play();
 }
 function fecharCamera() {
   if (cameraStream) {
@@ -289,6 +284,7 @@ function tirarFoto() {
   const canvas = document.getElementById("camera-canvas");
   const flashFake = document.getElementById("flash-fake");
 
+  // flash frontal pisca SÓ no clique
   if (usandoFrontal && flashFake) {
     flashFake.style.display = "block";
     setTimeout(() => flashFake.style.display = "none", 120);
@@ -298,20 +294,12 @@ function tirarFoto() {
   canvas.height = video.videoHeight;
 
   const ctx = canvas.getContext("2d");
-  ctx.save();
-
-  if (usandoFrontal) {
-    ctx.translate(canvas.width, 0);
-    ctx.scale(-1, 1);
-  }
-
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  ctx.restore();
 
-  fotoCapturada = canvas.toDataURL("image/jpeg");
+  fotoCapturada = canvas.toDataURL("image/jpeg", 0.95);
 
   document.getElementById("preview-img").src = fotoCapturada;
-  document.getElementById("preview-foto").style.display = "flex";
+  document.getElementById("preview-foto").style.display = "block";
 }
 function refazerFoto() {
   fotoCapturada = null;
