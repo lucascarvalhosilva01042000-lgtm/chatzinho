@@ -267,26 +267,22 @@ async function alternarCamera() {
   abrirCamera();
 }
 function alternarFlash() {
-  if (usandoFrontal) {
-    const fake = document.getElementById("flash-fake");
-    fake.style.display = "block";
-    setTimeout(() => fake.style.display = "none", 120);
-  } else {
+  if (!cameraStream) return;
+
+  if (!usandoFrontal) {
     const track = cameraStream.getVideoTracks()[0];
     if (track.getCapabilities().torch) {
       flashAtivo = !flashAtivo;
       track.applyConstraints({
         advanced: [{ torch: flashAtivo }]
       });
-    }
-  }
 }
 function tirarFoto() {
   const video = document.getElementById("camera-preview");
   const canvas = document.getElementById("camera-canvas");
   const flashFake = document.getElementById("flash-fake");
 
-  // ⚡ flash frontal (pisca)
+  // ⚡ flash frontal → pisca SOMENTE no clique
   if (usandoFrontal && flashFake) {
     flashFake.style.display = "block";
     setTimeout(() => flashFake.style.display = "none", 120);
@@ -296,8 +292,8 @@ function tirarFoto() {
   canvas.height = video.videoHeight;
 
   const ctx = canvas.getContext("2d");
- ctx.drawImage(video, 0, 0);
- 
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
   fotoCapturada = canvas.toDataURL("image/jpeg");
 
   document.getElementById("preview-img").src = fotoCapturada;
