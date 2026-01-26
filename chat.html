@@ -266,38 +266,39 @@
 <!-- MODAL DA CÂMERA -->
 <div id="camera-modal" class="camera-modal">
 
+  <!-- PREVIEW AO VIVO -->
   <video id="camera-preview" autoplay playsinline></video>
 
-  <!-- FLASH FAKE (frontal) -->
+  <!-- FLASH FAKE -->
   <div id="flash-fake"></div>
 
   <!-- TOPO -->
   <div class="camera-top">
     <button onclick="fecharCamera()">✕</button>
-    <button onclick="alternarCamera()">🔄</button>
-    <button onclick="alternarFlash()">⚡</button>
-  </div>
-
-  <!-- BOTÃO DISPARO -->
-  <div class="camera-bottom">
-    <div class="capture-btn"
-         onmousedown="iniciarCaptura()"
-         onmouseup="finalizarCaptura()"
-         ontouchstart="iniciarCaptura()"
-         ontouchend="finalizarCaptura()">
+    <div class="camera-top-right">
+      <button onclick="alternarCamera()">🔄</button>
+      <button onclick="alternarFlash()">⚡</button>
     </div>
   </div>
 
-  <!-- PREVIEW -->
+  <!-- BOTÃO CAPTURAR -->
+  <div class="camera-bottom">
+    <div class="capture-btn"
+         ontouchstart="iniciarCaptura()"
+         onmousedown="iniciarCaptura()">
+    </div>
+  </div>
+
+  <!-- PREVIEW DA FOTO -->
   <div id="preview-foto" class="preview-foto">
     <img id="preview-img">
 
     <input id="legenda-foto" placeholder="Adicionar legenda…">
 
     <div class="preview-actions">
-      <button onclick="enviarFoto(false)">➤</button>
-      <button onclick="enviarFoto(true)">👁️</button>
       <button onclick="refazerFoto()">↺</button>
+      <button onclick="enviarFoto(true)">👁️</button>
+      <button onclick="enviarFoto(false)">➤</button>
     </div>
   </div>
 
