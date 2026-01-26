@@ -240,16 +240,13 @@ async function abrirCamera() {
 
   cameraStream = await navigator.mediaDevices.getUserMedia({
     video: {
-      facingMode: usandoFrontal ? "user" : { exact: "environment" },
-      width: { ideal: 1920 },
-      height: { ideal: 1080 },
-      frameRate: { ideal: 30 }
+      facingMode: usandoFrontal ? "user" : "environment"
     },
     audio: false
   });
 
   video.srcObject = cameraStream;
-  await video.play();
+  video.play();
 }
 function fecharCamera() {
   if (cameraStream) {
