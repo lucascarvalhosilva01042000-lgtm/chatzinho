@@ -246,7 +246,14 @@ async function abrirCamera() {
   });
 
   video.srcObject = cameraStream;
-  video.play();
+
+  if (usandoFrontal) {
+    video.classList.remove("environment");
+  } else {
+    video.classList.add("environment");
+  }
+
+  await video.play();
 }
 function fecharCamera() {
   if (cameraStream) {
@@ -282,7 +289,6 @@ function tirarFoto() {
   const canvas = document.getElementById("camera-canvas");
   const flashFake = document.getElementById("flash-fake");
 
-  // ⚡ flash frontal → pisca SOMENTE no clique
   if (usandoFrontal && flashFake) {
     flashFake.style.display = "block";
     setTimeout(() => flashFake.style.display = "none", 120);
@@ -292,12 +298,20 @@ function tirarFoto() {
   canvas.height = video.videoHeight;
 
   const ctx = canvas.getContext("2d");
+  ctx.save();
+
+  if (usandoFrontal) {
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+  }
+
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  ctx.restore();
 
   fotoCapturada = canvas.toDataURL("image/jpeg");
 
   document.getElementById("preview-img").src = fotoCapturada;
-  document.getElementById("preview-foto").style.display = "block";
+  document.getElementById("preview-foto").style.display = "flex";
 }
 function refazerFoto() {
   fotoCapturada = null;
@@ -316,3 +330,4 @@ function iniciarCaptura() {
 function finalizarCaptura() {
   // vazio por enquanto (vídeo vem depois)
 }
+
